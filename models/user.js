@@ -12,7 +12,15 @@ let User = new Schema({
   },
   updatedAt: {
     type: Date
-  }
+  },
+  posts: [{
+    type: Schema.Types.ObjectId,
+    ref: "Post"
+  }],
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: "Comment"
+  }]
 })
 
 module.exports = db.model("User", User)

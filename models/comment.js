@@ -1,15 +1,11 @@
 let mongoose = require("mongoose")
 let Schema = mongoose.Schema
 
-let Post = new Schema({
-  title: {
-    type: String,
-    required: true
-  },
+let Comment = new Schema({
   content: {
     type: String,
     required: true
-  },
+  }, 
   createdAt: {
     type: Date,
     default: Date.now
@@ -22,9 +18,11 @@ let Post = new Schema({
     ref: "User",
     required: true
   },
-  comments: [{
+  post: {
     type: Schema.Types.ObjectId,
-    ref: "Comment"
-  }]
+    ref: "Post",
+    required: true
+  }
 })
-module.exports = db.model("Post", Post)
+
+module.exports= db.model("Comment", Comment)
