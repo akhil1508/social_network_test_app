@@ -2,6 +2,9 @@ let express = require("express")
 let path = require("path")
 let app = express()
 let exphbs = require("express-handlebars")
+let mongoose = require("mongoose")
+
+global.db = (global.db ? global.db : mongoose.createConnection(app.settings.dburi))
 
 app.set("dburi", "mongodb://localhost:27017/social_network")
 
