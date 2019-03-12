@@ -16,5 +16,11 @@ let Post = new Schema({
   },
   updatedAt: {
     type: Date
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
   }
 })
+module.exports = db.model("Post", Post)
