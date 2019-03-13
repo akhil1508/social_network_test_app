@@ -28,7 +28,8 @@ let Post = new Schema({
   }],
   likes: [{
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    unique: true
   }]
 })
 

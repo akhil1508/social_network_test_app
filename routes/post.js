@@ -31,6 +31,7 @@ router.post("/", (req, res) => {
         if (err) return res.render("posts/new.handlebars", {
           error: err.message
         })
+        req.flash("New post created successfully.")
         return res.redirect(`/posts/${post._id}`)
       })
     }
@@ -47,7 +48,7 @@ router.get("/:postId", (req, res) => {
     })
     Comment.find({
       post: post._id
-    }).populate("author").exec((err, comments) => {
+    }).populate("author").populate("replies").populate("likes").exec((err, comments) => {
       res.render("posts/show.handlebars", {
         post: post,
         comments: comments
@@ -72,12 +73,34 @@ router.post("/:postId/likes/", (req, res) => {
           post.likes.push(user)
           post.save((err, post) => {
             if(err) res.render("posts/show.handlebars", {likeError: err})
+            req.flash(`Post liked by ${user.username}`)
             res.redirect(`/posts/${post._id}`)
           })
         })
       }
     }
   )
+})
+
+
+router.get("/users/:userId", (req,res) => {
+  Post.find({author: req.params.userId}).populate("author").exec((err, posts) => {
+    if(err) {
+      req.flash(err)
+      return res.render("posts/index.handlebars")
+    }
+    return res.render("posts/index.handlebars", {posts: posts})
+  })
+})
+
+router.get("/", (req,res) => {
+  Post.find({}).populate("author").exec((err, posts) => {
+    if(err) {
+      req.flash(err)
+      return res.render("posts/index.handlebars")
+    }
+    return res.render("posts/index.handlebars", {posts: posts})
+  })
 })
 
 module.exports = router

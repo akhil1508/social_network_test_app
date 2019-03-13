@@ -1,12 +1,16 @@
-Username: {{{post.author.username}}}
-Post created at: {{{post.createdAt}}}
-Post title: {{{post.title}}}
-Post content: {{{post.content}}}
+<h3 class="is-3 subtitle">Username: {{{post.author.username}}}</h3>
+<h3 class="is-3 subtitle">Post created at: {{{post.createdAt}}}</h3>
+<h3 class="is-3 subtitle">
+  Post title: {{{post.title}}}
+</h3>
+<h3 class="is-3 subtitle">
+  Post content: {{{post.content}}}
+</h3>
 <br>
 {{{error}}}
-
+<h4 class="is-4 subtitle"> Like this post</h4>
 <form class="form" method="post" action="/posts/{{post._id}}/likes/">
-{{likeError}}
+  {{likeError}}
   <div class="field">
     <label class="label">Username:</label>
     <div class="control">
@@ -14,10 +18,11 @@ Post content: {{{post.content}}}
     </div>
   </div>
   <div class="control">
-    <button type="submit">Like this post</button>
+    <button type="submit is-success">Like this post</button>
   </div>
 </form>
 
+<h4 class="is-4 subtitle">Comment on this post</h4>
 <form class="form" method="post" action="/posts/{{post._id}}/comments/">
   {{{commentError}}}
   <div class="field">
@@ -35,18 +40,50 @@ Post content: {{{post.content}}}
   </div>
 
   <div class="control">
-    <button type="submit">Submit</button>
+    <button type="submit is-success">Submit</button>
   </div>
 </form>
 <br>
 Likes ({{{post.likes.length}}}): <br>
+
+<h4 class="is-4 subtitle">Post liked by: </h4> 
+<ul>
 {{#each post.likes}}
-Username: {{username}}
+
+<li>Username: <a href="/users/{{_id}}">{{username}}</a></li>
 {{/each}}
+</ul>
 <br>
-Comments:
-<br>
+<h3 class="is-3 subtitle">Comments:
+</h3>
+<ul>
 {{#each comments}}
-Username: {{author.username}}
-Content: {{content}}
+<br>
+<li>
+{{content}} by <a href="/users/{{_id}}">{{author.username}}</a><br>
+Likes({{likes.length}})
+<h4 class="is-4 subtitle">Comment liked by: </h4> 
+<ul>
+{{#each likes}}
+
+<li>Username: <a href="/users/{{_id}}">{{username}}</a></li>
 {{/each}}
+</ul>
+
+<form class="form" method="post" action="/posts/{{post._id}}/comments/{{_id}}/likes">
+  {{commentLikeError}}
+  <div class="field">
+    <label class="label">Username:</label>
+    <div class="control">
+      <input class="input" type="text" name="username">
+    </div>
+  </div>
+  <div class="control">
+    <button type="submit">Like this comment</button>
+  </div>
+</form>
+
+<a href="/posts/{{post._id}}/comments/{{_id}}/reply">Reply to comment</a>
+</li>
+{{/each}}
+</ul>

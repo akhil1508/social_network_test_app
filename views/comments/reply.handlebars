@@ -1,0 +1,31 @@
+Username: {{{comment.author.username}}}
+Content: {{{comment.content}}}
+<br>
+<form class="form" method="post" action="/posts/{{comment.post._id}}/comments/{{comment._id}}">
+  <div class="field">
+    <label class="label">
+      Username:
+    </label>
+    <div class="control">
+      <input class="input" type="text" name="username">
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">
+      Content:
+    </label>
+    <div class="control">
+      <input class="input" type="text" name="content">
+    </div>
+  </div>
+
+  <div class="control">
+    <button type="submit">Submit</button>
+  </div>
+</form>
+<br>
+{{#each comment.replies}}
+Username: {{author.username}}
+Content: {{content}}
+{{/each }}

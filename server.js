@@ -4,6 +4,13 @@ let app = express()
 let exphbs = require("express-handlebars")
 let mongoose = require("mongoose")
 let morgan = require("morgan")
+let session = require('express-session');
+let cookieParser = require('cookie-parser');
+
+app.use(cookieParser('secret'));
+app.use(session());
+app.use(require('flash')())
+
 app.use(morgan("tiny"))
 let bodyParser = require("body-parser")
 
@@ -17,6 +24,9 @@ global.db = (global.db ? global.db : mongoose.createConnection(app.settings.dbur
 app.engine("handlebars", exphbs({defaultLayout: "main"}))
 app.set("view engine", "handlebars")
 
+app.get("/", (req,res) => {
+  res.render("index.handlebars")
+})
 app.use(express.static(path.join(__dirname, "public")))
 
 app.use("/users", require("./routes/user"))

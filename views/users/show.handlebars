@@ -1,3 +1,7 @@
-Username: {{{user.username}}}
-User created at: {{{user.createdAt}}}
-{{{error}}}
+<h3 class="is-3 subtitle">Username: {{{user.username}}}</h3>
+
+<h3 class="is-3 subtitle">User created at: {{{user.createdAt}}}</h3>
+<small>{{{error}}}</small>
+
+<br>
+<a href="/posts/users/{{{user._id}}}">See posts by {{{user.username}}}</a>

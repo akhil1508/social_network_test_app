@@ -29,8 +29,13 @@ let Comment = new Schema({
   }],
   likes: [{
     type: Schema.Types.ObjectId,
-    ref: "User"
-  }]
+    ref: "User",
+    unique: true
+  }],
+  replyTo: {
+    type: Schema.Types.ObjectId,
+    ref: "Comment"
+  }
 })
 
 module.exports = db.model("Comment", Comment)

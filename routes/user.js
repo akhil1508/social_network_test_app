@@ -19,9 +19,19 @@ router.post("/", (req,res) => {
 
 router.get("/:id", (req,res) => {
   User.findById(req.params.id, (err, user) => {
-    if(err) res.render("users/show.handlebars", {error: err})
-    if(!user) res.render("users/show.handlebars", {error: "User doesn't exist"})
+    if(err) return res.render("users/show.handlebars", {error: err})
+    if(!user) return res.render("users/show.handlebars", {error: "User doesn't exist"})
     res.render("users/show.handlebars", {user: user})
+  })
+})
+
+router.get("/", (req,res) => {
+  User.find({}, (err, users) => {
+    if(err) {
+      req.flash(err)
+      return res.render("users/index.handlebars")
+    }
+    return res.render("users/index.handlebars", {users: users})
   })
 })
 

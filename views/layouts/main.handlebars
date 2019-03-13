@@ -4,11 +4,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../../node_modules/bulma/css/bulma.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/assets/bulma.min.css">
 </head>
 
 <body>
+  <div class="container">
+  {{#each flash}}
+  <div class="notification is-info">
+    {{message}}
+  </div>
+  {{/each}}
+
   {{{body}}}
+</div>
+
 </body>
 
 </html>
