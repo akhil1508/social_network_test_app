@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
 })
 
 router.get("/:postId", (req, res) => {
-  Post.findById(req.params.postId).populate("author").populate("comments").exec((err, post) => {
+  Post.findById(req.params.postId).populate("author").populate("likes").exec((err, post) => {
     if (err) res.render("posts/show.handlebars", {
       error: err
     })
@@ -49,7 +49,7 @@ router.get("/:postId", (req, res) => {
       post: post._id
     }).populate("author").exec((err, comments) => {
       res.render("posts/show.handlebars", {
-        post: post, 
+        post: post,
         comments: comments
       })
     })
@@ -57,5 +57,27 @@ router.get("/:postId", (req, res) => {
 })
 
 router.use("/:postId/comments/", require("./comment"))
+
+router.post("/:postId/likes/", (req, res) => {
+  User.findOne({username: req.body.username}).exec(
+    (err, user) => {
+      if (err) res.render("posts/show.handlebars", {
+        likeError: err
+      })
+      if (!user) res.render("posts/show.handlebars", {
+        likeError: "No user with given username"
+      })
+      else {
+        Post.findById(req.params.postId).populate("likes").exec((err, post) => {
+          post.likes.push(user)
+          post.save((err, post) => {
+            if(err) res.render("posts/show.handlebars", {likeError: err})
+            res.redirect(`/posts/${post._id}`)
+          })
+        })
+      }
+    }
+  )
+})
 
 module.exports = router

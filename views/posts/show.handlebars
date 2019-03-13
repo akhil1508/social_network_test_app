@@ -5,6 +5,19 @@ Post content: {{{post.content}}}
 <br>
 {{{error}}}
 
+<form class="form" method="post" action="/posts/{{post._id}}/likes/">
+{{likeError}}
+  <div class="field">
+    <label class="label">Username:</label>
+    <div class="control">
+      <input class="input" type="text" name="username">
+    </div>
+  </div>
+  <div class="control">
+    <button type="submit">Like this post</button>
+  </div>
+</form>
+
 <form class="form" method="post" action="/posts/{{post._id}}/comments/">
   {{{commentError}}}
   <div class="field">
@@ -26,8 +39,13 @@ Post content: {{{post.content}}}
   </div>
 </form>
 <br>
-
+Likes ({{{post.likes.length}}}): <br>
+{{#each post.likes}}
+Username: {{username}}
+{{/each}}
+<br>
 Comments:
+<br>
 {{#each comments}}
 Username: {{author.username}}
 Content: {{content}}

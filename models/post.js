@@ -25,6 +25,11 @@ let Post = new Schema({
   comments: [{
     type: Schema.Types.ObjectId,
     ref: "Comment"
+  }],
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: "User"
   }]
 })
+
 module.exports = db.model("Post", Post)
