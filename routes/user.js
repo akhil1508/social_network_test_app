@@ -8,13 +8,20 @@ router.get("/new", (req, res) => {
 
 router.post("/", (req,res) => {
   let username = req.body.username
-  console.log(req.body)
   let user = new User({
     username: username
   })
   user.save((err, user) => {
     if(err) return res.render("users/new.handlebars", {error: err.message})
-    return res.render("users/show.handlebars", {user: user})
+    return res.redirect(`/users/${user._id}`)
+  })
+})
+
+router.get("/:id", (req,res) => {
+  User.findById(req.params.id, (err, user) => {
+    if(err) res.render("users/show.handlebars", {error: err})
+    if(!user) res.render("users/show.handlebars", {error: "User doesn't exist"})
+    res.render("users/show.handlebars", {user: user})
   })
 })
 

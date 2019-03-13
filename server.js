@@ -20,5 +20,6 @@ app.set("view engine", "handlebars")
 app.use(express.static(path.join(__dirname, "public")))
 
 app.use("/users", require("./routes/user"))
+app.use("/posts", require("./routes/post"))
 
 app.listen(4000)
